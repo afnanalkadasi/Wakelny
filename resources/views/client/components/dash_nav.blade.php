@@ -27,9 +27,9 @@
         </div>
         <!-- name -->
         <div class="text-center">
-            <a class="text-prof fs-5 fw-bold " href="">{{ auth()->user()->name }}</a>
+            <a class="text-prof fs-5 font-lg fw-bold " href="">{{ $item->name }}</a>
             <p class="my-2 border-top  mb-3"></p>
-            <a class=" font-sm w-full " href='{{ route('account') }}'>تعديل معلومات الحساب</a>
+            <a class=" font-md w-full " href='{{ route('account') }}'>تعديل معلومات الحساب</a>
         </div>
     </div>
 
@@ -39,19 +39,29 @@
             <a href='{{ route('profile') }}' id="personal" style="cursor: pointer"
                 class="text-prof d-flex align-items-center d-inline-block ms-3 border-bottom pb-2">
                 <i class="fa fa-user pe-2"></i>
-                <span class="fs-6 fw-bold mx-4">{{ __('profile.Personal_Info') }}</span>
+                <span class="fs-6 font-md fw-bold mx-4">{{ __('profile.Personal_Info') }}</span>
             </a>
             <a id="skill" href='{{ route('skills') }}'
                 class="text-secondary d-flex align-items-center d-inline-block ms-3 border-bottom pb-2">
                 <i class="fa fa-object-group pe-2"></i>
-                <span class="fs-6 fw-bold mx-4">{{ __('profile.skills') }}</span>
+                <span class="fs-6 font-md fw-bold mx-4">{{ __('profile.skills') }}</span>
             </a>
+            @if (Auth::check())
+                @role('provider')
+                    <a id="mywork" href='{{ route('myWorks') }}'
+                        class="text-secondary d-flex align-items-center d-inline-block ms-3 border-bottom pb-2">
+                        <ion-icon name="code-working"></ion-icon>
+                        <span class="fs-6 font-md fw-bold mx-4">أعمالي </span>
+                    </a>
+                @endrole
+            @endif
 
-            <p style="cursor: pointer" id="note"
+
+            <a style="cursor: pointer" id="note" href='{{ route('mywallet') }}'
                 class="text-secondary d-flex align-items-center d-inline-block ms-3 border-bottom pb-2">
-                <i class="fa fa-book pe-2"></i>
-                <span class="fs-6 fw-bold mx-4">{{ __('profile.notifacation') }}</span>
-            </p>
+                <i class="fa  fa-wallet pe-2"></i>
+                <span class="fs-6 font-md fw-bold mx-4">{{ __('profile.wallet') }}</span>
+            </a>
 
 
         </nav>
@@ -59,9 +69,8 @@
 
     </div>
     <!-- dashboard nav -->
-    <div class="card  p-3 pt-0 bg-opacity-0">
-
-        <nav class="card px-3 py-4 mt-3 d-flex gap-3">
+    {{-- <div class="card  p-3 pt-0 bg-opacity-0"> --}}
+    {{-- <nav class="card px-3 py-4 mt-3 d-flex gap-3">
             <h5 class="border-bottom my-2 pb-2" style="color:rgba(77, 212, 172, 1);">خطوات إكمال الحساب</h5>
             <div class="mx-2 px-2">
                 <a href="#">
@@ -89,12 +98,12 @@
 
 
         </nav>
-    </div>
+    </div> --}}
 </div>
 
 
 
-<section class="col-lg-8 col-md-8 col-12" id="Edu">
+{{-- <section class="col-lg-8 col-md-8 col-12" id="Edu">
     <div class="card p-3">
 
 
@@ -200,4 +209,4 @@
             <button class="wak_btn " type="submit">Save</button>
 
         </div>
-</section>
+</section> --}}

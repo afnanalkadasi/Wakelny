@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "bavix/laravel-wallet": "^9.0",
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
@@ -31,7 +32,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -51,6 +55,10 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "chmod -R 777 public/"
         ]
     },
     "extra": {

@@ -17,6 +17,19 @@ class ProfileSeeder extends Seeder
     public function run()
     {
         //
+        $admin = Profile::create([
+            'user_id' => 1,
+            // 'user_id' => User::all()->random()->id,
+            'name' => 'متاح',
+            'gender' => 'female',
+            'mobile' => '773065471',
+            'country' => 'Yemen',
+
+            'account_type' => 'provider',
+            'job_title' => 'backend developer',
+            'specialization' => 'platform',
+            'bio' => '"',
+        ]);
         $Dhoha = Profile::create([
             'user_id' => 2,
             // 'user_id' => User::all()->random()->id,
@@ -51,7 +64,7 @@ class ProfileSeeder extends Seeder
             تواصل معي عبر الرسائل لمناقشة تفاصيل مشروعك.',
         ]);
         $Fatima = Profile::create([
-            'user_id' => 2,
+            'user_id' => 3,
             // 'user_id' => User::all()->random()->id,
             'name' => 'فاطمة المشهور',
             'gender' => 'female',
@@ -90,7 +103,7 @@ class ProfileSeeder extends Seeder
             اشكركم لاهتمامكم وطابت أوقاتكم بالخير ،،',
         ]);
         $Afnan = Profile::create([
-            'user_id' => 3,
+            'user_id' => 4,
             // 'user_id' => User::all()->random()->id,
             'name' => 'أفنان القدسي',
             'gender' => 'female',
@@ -116,7 +129,7 @@ class ProfileSeeder extends Seeder
             قمت بتفعيل حسابي في موقع مستقل في شهر 10 / 2021',
         ]);
         $Roqaiah = Profile::create([
-            'user_id' => 4,
+            'user_id' => 5,
             // 'user_id' => User::all()->random()->id,
             'name' => 'رقية سيف',
             'gender' => 'female',
@@ -142,7 +155,7 @@ class ProfileSeeder extends Seeder
             - جودة العمل هي أهم شيء بالنسبة لي ويمكنني دائمًا تقديمها سواء كان المشروع كبيرًا أو صغيرًا.',
         ]);
         $Mohammed = Profile::create([
-            'user_id' => 4,
+            'user_id' => 6,
             // 'user_id' => User::all()->random()->id,
             'name' => 'محمد الدعيس',
             'gender' => 'male',
@@ -158,7 +171,7 @@ class ProfileSeeder extends Seeder
             حاصل على شهادة معتمدة من مركز يات التعليمى بالمعادى فى مصر',
         ]);
         $Haifa = Profile::create([
-            'user_id' => 5,
+            'user_id' => 7,
             // 'user_id' => User::all()->random()->id,
             'name' => 'هيفاء نبيل',
             'gender' => 'female',
@@ -199,7 +212,7 @@ class ProfileSeeder extends Seeder
             أشكرك على وقتك الثمين، وكن مطمئنًا لأن عملك معي سيفوق توقعاتك.',
         ]);
         $Mokhtar = Profile::create([
-            'user_id' => 6,
+            'user_id' => 8,
             // 'user_id' => User::all()->random()->id,
             'name' => 'مختار غالب',
             'country' => 'Yemen',
@@ -230,7 +243,7 @@ class ProfileSeeder extends Seeder
             تحياتي....',
         ]);
         $Haitham = Profile::create([
-            'user_id' => 7,
+            'user_id' => 9,
             // 'user_id' => User::all()->random()->id,
             'name' => 'هيثم أمين',
             'country' => 'Yemen',

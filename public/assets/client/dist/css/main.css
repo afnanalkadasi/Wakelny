@@ -2,8 +2,6 @@
 This file is used to contain all abstracts imports.
 Files inside this folder can contain abstract settings, helpers or functions. They have no direct output.
 */
-
-
 @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@800&family=Tajawal&display=swap");
 
 * {
@@ -106,11 +104,12 @@ ul {
   -webkit-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
   z-index: 100 !important;
+  outline-offset: -1.3px;
 }
 
 .btn-light-pink-rounderd {
   background-color: transparent;
-  border: 1.9px solid #F4ECFF;
+  outline: 1.9px solid #F4ECFF;
 }
 
 .btn-light-pink-bg {
@@ -126,7 +125,29 @@ ul {
 .btn-light-pink-bg:hover {
   background-color: transparent;
   color: white;
-  border: 1.9px solid #F4ECFF;
+  outline: 1.9px solid #F4ECFF;
+}
+
+.btn-green-rounderd {
+  background-color: transparent;
+  border: 1.9px solid #00C89B;
+  outline: #00C89B;
+}
+
+.btn-green-bg {
+  background-color: #00C89B;
+  color: black;
+}
+
+.btn-green-rounderd:hover {
+  background-color: #00C89B;
+  color: black;
+}
+
+.btn-green-bg:hover {
+  background-color: transparent;
+  color: #00C89B;
+  outline: 1.9px solid #00C89B;
 }
 
 .btn-blue-bg {
@@ -144,7 +165,7 @@ ul {
 .btn-blue-rounderd {
   background-color: transparent;
   color: black;
-  border: 1.9px solid #373483;
+  outline: 1.9px solid #373483;
 }
 
 .btn-blue-rounderd:hover {
@@ -167,7 +188,8 @@ ul {
 .btn-pink-rounderd {
   background-color: transparent;
   color: black;
-  border: 1.9px solid #CD657C;
+  outline: 1.9px solid #CD657C;
+  outline-offset: -1.3px;
 }
 
 .btn-pink-rounderd:hover {
@@ -280,6 +302,7 @@ ul {
   transform: translateX(-50%);
   width: var(--parant-size);
   height: var(--parant-size);
+  z-index: 1;
 }
 
 .motaah-circle__gray,
@@ -290,6 +313,7 @@ ul {
   border: 3px solid white;
   border-radius: 50%;
   background-color: transparent;
+  z-index: 1;
 }
 
 .motaah-circle__gray {
@@ -316,7 +340,7 @@ ul {
 }
 
 .motaah-circle__gray.white {
-  border: 2px solid white;
+  border: 5px solid white;
 }
 
 .motaah-circle__gray.sm {
@@ -377,4 +401,9 @@ ul {
   }
 }
 
+.active_fixed_nav{
+   color: #CD657C;
+   transform: scale(1.3);
+
+}
 /*# sourceMappingURL=main.css.map */

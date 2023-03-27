@@ -57,8 +57,8 @@
     </style>
     {{-- @foreach ($projects as $project) --}}
     <div class="container">
-        <div class="d-flex justify-content-between flex-wrap">
-            <h3 class="my-5">{{ $project->title }}</h3>
+        <div class="d-flex justify-content-between flex-wrap mt-20">
+            <h3 class="my-5 font-xl font-bold">{{ $project->title }}</h3>
         </div>
     </div>
 
@@ -133,41 +133,39 @@
             <div class=" col-md-4 col-sm-12">
                 <div class="card shadow-sm ">
                     <h4>التسليم</h4>
-                    <a href="{{ $project->file }}">
+                    <a href="/public/upload/{{ $project->files }}" download>
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         ملفات المشروع قيم بتحميلها
                     </a>
 
                     <div class=" col-12 col-xs-12 pt-3">
-                        <label> الرباط التشغبي <em class="text--danger">*</em>
+                        <label> الرابط التشعبي <em class="text--danger">*</em>
                         </label>
                         <div class="input-group mb-3">
-
-                            <input name="duration" class='form-control' id="phone" type="number"
-                                value=" {{ $project->url }}" aria-label="Username" aria-describedby="basic-addon1"
+                            <input name="duration" class='form-control' id="url" type="url" value=" {{ $project->url }}"
                                 readonly>
                             <span class="input-group-text" id="basic-addon1">Url</span>
                         </div>
                     </div>
                     <div class=" col-12 col-xs-12 pt-3">
-                        <label> الرباط التشغبي <em class="text--danger">*</em>
+                        <label> الرابط التشعبي <em class="text--danger">*</em>
                         </label>
                         <div class=" mb-3">
 
                             <input name="duration" class=' checkbox' id="checkbox" type="checkbox"
-                                checked={{ $project->other_way_send_files }} aria-label="Username"
+                                @if ($project->other_way_send_files) checked={true} @endif aria-label="Username"
                                 aria-describedby="basic-addon1" readonly onclick="return false;">
                             <span class="" id="basic-addon1">تم ارسالها بطريقه أخرى</span>
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <a class="wak_btn" type="submit" name="reject" data-bs-toggle="modal"
+                        <a class="mo-btn btn-blue-bg" type="submit" name="reject" data-bs-toggle="modal"
                             data-bs-target="#evaluationModel"> تأكيد التسليم</a>
-                        <a class="wak_btn orange" type="submit" name="reject" data-bs-toggle="modal"
+                        <a class="mo-btn btn-blue-rounderd  " type="submit" name="reject" data-bs-toggle="modal"
                             data-bs-target="#deleteModel"> رفض التسليم </a>
 
-                        {{-- <a tabindex="-1" class="wak_btn" data-bs-toggle="modal" data-bs-target="#deleteModel">
+                        {{-- <a tabindex="-1" class="mo-btn" data-bs-toggle="modal" data-bs-target="#deleteModel">
                             <i class="fa fa-xmark px-1"></i>
                             <span class="action-text">اغلاق المشروع </span>
                         </a> --}}
@@ -181,8 +179,8 @@
                 <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModel">لماذا تريد رفض قبول المشروع</h5>
+                            <div class="modal-header ">
+                                <h5 class="modal-title " id="deleteModel">لماذا تريد رفض قبول المشروع</h5>
                                 {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                             </div>
 
@@ -203,8 +201,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-danger">تاكيد الرفض</button>
-                                        <button type="button" class="btn btn-secondary"
+                                        <button type="submit" class="mo-btn btn-pink-bg pink">تاكيد الرفض</button>
+                                        <button type="button" class="mo-btn btn-blue-bg"
                                             data-bs-dismiss="modal">الغاء</button>
                                         {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
 
@@ -225,7 +223,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="evaluationModel">لماذا تريد رفض قبول المشروع</h5>
+                                <h5 class="modal-title" id="evaluationModel">تاكيد تسليم المشروع</h5>
                                 {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                             </div>
 
@@ -241,19 +239,19 @@
                                         <div class="container">
                                             <div class="feedback">
                                                 <div class="rating d-flex justify-content-center ">
-                                                    <input type="radio" name="rating" id="rating-5" value="1">
+                                                    <input type="radio" name="rating" id="rating-5" value="5">
                                                     <label for="rating-5"></label>
 
-                                                    <input type="radio" name="rating" id="rating-4" value="2">
+                                                    <input type="radio" name="rating" id="rating-4" value="4">
                                                     <label for="rating-4"></label>
 
                                                     <input type="radio" name="rating" id="rating-3" value="3">
                                                     <label for="rating-3"></label>
 
-                                                    <input type="radio" name="rating" id="rating-2" value="4">
+                                                    <input type="radio" name="rating" id="rating-2" value="2">
                                                     <label for="rating-2"></label>
 
-                                                    <input type="radio" name="rating" id="rating-1" value="5">
+                                                    <input type="radio" name="rating" id="rating-1" value="1">
                                                     <label for="rating-1"></label>
                                                 </div>
                                             </div>
@@ -271,8 +269,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success">تاكيد التسليم</button>
-                                        <button type="button" class="btn btn-secondary"
+                                        <button type="submit" class="mo-btn btn-pink-bg pink">تاكيد التسليم</button>
+                                        <button type="button" class="mo-btn btn-blue-rounderd"
                                             data-bs-dismiss="modal">الغاء</button>
                                         {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
 

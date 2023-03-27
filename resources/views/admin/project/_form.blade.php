@@ -17,7 +17,7 @@
         width:675px;
 }
 </style>
-<div class="row mx-1  mt-2 col-12 d-flex justify-content-lg-between ">
+<!-- <div class="row mx-1  mt-2 col-12 d-flex justify-content-lg-between ">
                 <nav aria-label="breadcrumb" class="main-breadcrumb col-6 p-3">
                     <ol class="breadcrumb ms-3">
                         <li class=" fs-6 fw-bold"><a href="{{ route('home') }}">الرئيسية </a></li>/&nbsp&nbsp&nbsp
@@ -26,7 +26,7 @@
                     </ol>
 
                 </nav>
-</div>
+</div> -->
     <div class="container">
         <div class="row my-5">
             <div class="col-md-8 col-sm-12">
@@ -36,7 +36,6 @@
 
                                   @if (Route::currentRouteName() == 'report_content')
                                         <input type="hidden" value="{{ $post_id }}" name="post_id" />
-                                        <input type="hidden" value="{{ $provider_id }}" name="provider_id" />
                                 @else
                                 <input type="hidden" value="{{ $provider_id }}" name="provider_id" />
 
@@ -75,6 +74,7 @@
                                     @enderror
                                     </div>
                                 </div>
+                                
                                 <div class="row col-md-12" >
 
                                     <label for="" class="col-md-4 col-form-label font-w">  الشكوى</label>
@@ -90,11 +90,9 @@
 
                                 </div>
 
-                                <div class="row w-full  ">
 
-                                    <button class="wak_btn w-full my-4" style="margin-right: 10px;"  type="submit">أرسال</button>
+                                   <button class="mo-btn btn-blue-bg float-left font-md my-4"  type="submit">أرسال</button>
 
-                                </div>
 
                         {{ csrf_field() }}
                         </form>

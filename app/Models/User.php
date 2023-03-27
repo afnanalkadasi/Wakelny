@@ -15,11 +15,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Interfaces\Wallet;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail,  Wallet
 {
     use LaratrustUserTrait;
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasWallet;
 
     /**
      * Get the phone associated with the user.
@@ -90,7 +92,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Role::class, 'id');
     }
-
+    /**
+     * A user can have many messages
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 
     public static function getProviders($search_keyword, $cates, $rateing)
     {
@@ -160,5 +170,8 @@ class User extends Authenticatable implements MustVerifyEmail
             ->line(Lang::get('رجاء قم بالضغط على الزر في الاسفل لتفعيل البريد الاكتروني'))
             ->action(Lang::get('تأكيد البريد الاكتروني'), $url)
             ->line(Lang::get('اذا واجهتك مشاكل في الضغط على الزرار يمكنك الضغط على الرابط ادناه'));
+    }
+    public function message() {
+        return $this->hasMany("App\Models\Messages");
     }
 }

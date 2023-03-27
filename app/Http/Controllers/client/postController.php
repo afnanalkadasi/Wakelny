@@ -9,6 +9,7 @@ use App\Models\PostModel;
 use App\Models\Posts;
 use App\Models\PostSkills;
 use App\Models\Profile;
+use App\Models\Project;
 use App\Models\Skill;
 use App\Models\User;
 use App\Notifications\PostNotification;
@@ -50,9 +51,10 @@ class PostController extends Controller
         try {
             $post = Posts::select(
                 'posts.*',
+                'profiles.avatar',
                 'profiles.name as post_user_name',
                 'profiles.user_id as post_user_id',
-                'profiles.specialization as post_user_specialization',
+                'profiles.job_title',
             )->join('profiles', 'profiles.user_id', 'posts.user_id')->where('id', (int)$post_id)->where('is_active', 1)->first();
 
 
@@ -68,6 +70,8 @@ class PostController extends Controller
                 'profiles.specialization',
                 'profiles.rating',
                 'profiles.user_id',
+                'profiles.avatar',
+                'profiles.limit',
                 'comments.duration',
                 'comments.cost',
                 'comments.description',
@@ -90,6 +94,12 @@ class PostController extends Controller
                     'comments.duration',
                 ])
                 ->get();
+            $checkProject = Project::select(
+                'status'
+            )
+                ->where('post_id', (int)$post_id)
+                ->where('status', '!=', 'rejected')
+                ->first();
 
             // print_r($comments);
             $hasComment = Comments::where('post_id', (int)$post_id)->where('user_id', Auth::id())->count();
@@ -100,10 +110,11 @@ class PostController extends Controller
                 'comments' => $comments,
                 'post_id' => $post_id,
                 'skills' => $skills,
-                'hasComment' => $hasComment > 0 ? true : false
+                'hasComment' => $hasComment > 0 ? true : false,
+                'checkHasProject' => $checkProject ? true : false
             ]);
         } catch (\Throwable $th) {
-            return back()->with(['message' => ' هنالك مشكله ما رجاء قم بعاده المحوله', 'type' => 'alert-danger']);
+            return back()->with(['message' => ' هنالك مشكله ما رجاء قم باعاده المحاوله', 'type' => 'alert-danger']);
         }
     }
     // page for show the form of create new post
@@ -122,7 +133,7 @@ class PostController extends Controller
                 'category' => ['required'],
                 'cost' => ['required'],
                 'message' => ['required', 'min:100'],
-                'duration' => ['required', 'numeric'],
+                'duration' => ['required', 'numeric', 'gt:0'],
             ], [
                 'title.required' => 'يجب ان تقوم بأدخال عنوان للمشروع',
                 'title.min' => 'يجب ان يحتوي العنوان على 15 حرف على الاقل',
@@ -132,7 +143,8 @@ class PostController extends Controller
                 'message.required' => 'اضف وصف للمشروع',
                 'message.min' => 'حقل الوصف يجب ان يحتوي على 255 حرف على الاقل',
                 'duration.required' => 'حقل المده مطلوب',
-                'duration.numeric' => 'يجب ان يكون حق المده من نوع رقمي',
+                'duration.numeric' => 'يجب ان يكون حقل المده من نوع رقمي',
+                'duration.gt' => 'يجب ان يكون حقل المده اكبر من صفر',
 
             ]);
 
@@ -153,8 +165,8 @@ class PostController extends Controller
             if ($post->save()) {
 
 
-                // ! send notification to all the users in the same category in the database except the owner 
-                // !still not working 
+                // ! send notification to all the users in the same category in the database except the owner
+                // !still not working
                 // $users = Profile::select('profiles.user_id')->join('categories', 'profiles.category_id', '=', 'categories.id')->where('categories.id', $request->category)->get();
                 $users = User::select(
                     'users.id',
@@ -172,7 +184,8 @@ class PostController extends Controller
                     'url' => url('posts/derails/' .  $post->id)
                 ];
                 // FacadesNotification::send($users, new PostNotification($data));
-                print_r($users);
+                // print_r($users);
+
 
 
 
@@ -222,28 +235,37 @@ class PostController extends Controller
 
         return view('client.post.editPost')->with(['data' => $post, 'skills' => $skill, 'categories' => $categories]);
     }
-    public function postDesciption()
-    {
 
-        return view('client.post.postdescription');
-    }
 
     public function showProject()
     {
-        $projects =  Posts::select(
-            'posts.id',
-            'posts.title',
-            'posts.offers',
-            'posts.description',
-            'profiles.name'
 
-        )->join('profiles', 'profiles.user_id', '=', 'posts.user_id')->where('is_active', 1)->where('posts.user_id', Auth::id())->get();
+        try {
+            $project = Project::select(
+                'posts.title',
+                'projects.amount',
+                'projects.id as project_id',
+                'projects.seeker_id as seeker_id',
+                'projects.provider_id as provider_id',
+                'projects.totalAmount',
+                'projects.status',
+                'projects.payment_status',
+                'projects.invoice',
+                'projects.created_at',
+                'projects.duration',
+                'projects.post_id',
+            )->join('posts', 'posts.id', 'projects.post_id')
 
-
-        // return response()->json($projects);
-        return view('client.post.myProject')->with('posts', $projects);
+                ->get();
+            // return response()->json($projects);
+            return view('client.post.myProject')->with('projects', $project);
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            return redirect()->back()->with(['message' => 'لقد استغرت العمليه اطول من الوقت المحدد لها ', 'type' => 'alert-success']);
+        } catch (Expectation   $th) {
+            // throw $th;
+            return back()->with(['message' => 'حدث خطأ   ', 'type' => 'alert-danger']);
+        }
     }
-
 
     public function update(Request $request, $post_id)
     {
@@ -253,7 +275,7 @@ class PostController extends Controller
                 'category' => ['required'],
                 'cost' => ['required'],
                 'message' => ['required', 'min:100'],
-                'duration' => ['required', 'numeric'],
+                'duration' => ['required', 'numeric', 'gt:0'],
             ], [
                 'title.required' => 'يجب ان تقوم بأدخال عنوان للمشروع',
                 'title.min' => 'يجب ان يحتوي العنوان على 15 حرف على الاقل',
@@ -264,7 +286,7 @@ class PostController extends Controller
                 'message.min' => 'حقل الوصف يجب ان يحتوي على 255 حرف على الاقل',
                 'duration.required' => 'حقل المده مطلوب',
                 'duration.numeric' => 'يجب ان يكون حق المده من نوع رقمي',
-
+                'duration.gt' => 'يجب ان يكون حقل المده اكبر من صفر',
             ]);
 
 
@@ -279,7 +301,6 @@ class PostController extends Controller
 
             if ($request->hasFile('files'))
                 $post->file = $this->uploadFile($request->file('files'));
-
             if ($post->save()) {
 
 
@@ -287,6 +308,8 @@ class PostController extends Controller
                     ->with(['message' => 'تم تعديل المشروع بنجاح', 'type' => 'alert-success']);
             } else
                 return back()->with(['message' => 'فشلت عمليه التعديل الرجاء اعاده المحاوله   ', 'type' => 'alert-danger']);
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            return redirect()->back()->with(['message' => 'لقد استغرت العمليه اطول من الوقت المحدد لها ', 'type' => 'alert-success']);
         } catch (Expectation   $th) {
             // throw $th;
             return back()->with(['message' => 'فشلت عمليه التعديل الرجاء اعاده المحاوله   ', 'type' => 'alert-danger']);
